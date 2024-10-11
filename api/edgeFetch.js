@@ -17,9 +17,11 @@ export default async function handler(req) {
       return new Response('Bad Request: URL is required', { status: 400 })
     }
 
+    const params = new URLSearchParams(body)
+    console.log(`params: ${params.toString()}`)
     const response = await fetch(url, {
       method: 'POST',
-      body: new URLSearchParams(body)
+      body: params
     })
     const text = await response.text()
 
