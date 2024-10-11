@@ -1,6 +1,6 @@
-// export const config = {
-//   runtime: 'edge' // this is a pre-requisite
-// }
+export const config = {
+  runtime: 'edge' // this is a pre-requisite
+}
 
 export default async function handler(req) {
   if (req.method !== 'POST') {
@@ -21,7 +21,10 @@ export default async function handler(req) {
     console.log(`params: ${params.toString()}`)
     const response = await fetch(url, {
       method: 'POST',
-      body: params
+      body: params,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
     })
     const text = await response.text()
 
