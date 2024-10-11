@@ -19,7 +19,10 @@ export default async function handler(req) {
 
     const response = await fetch(url, {
       method: 'POST',
-      body: new URLSearchParams(body)
+      body: new URLSearchParams(body),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
     })
     const text = await response.text()
 
