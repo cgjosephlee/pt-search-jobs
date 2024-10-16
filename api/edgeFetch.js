@@ -28,7 +28,8 @@ export default async function handler(req) {
 
     return new Response(text, {
       headers: {
-        'Content-Type': 'text/plain'
+        'Content-Type': 'text/plain',
+        'Cache-Control': 'max-age=60, s-maxage=600'
       }
     })
   } catch (error) {
