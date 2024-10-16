@@ -10,8 +10,9 @@ const data = ref([])
 const totalPage = ref(1)
 const isLoading = ref(false)
 
-async function searchJobs() {
+async function searchJobs(pageNum) {
   isLoading.value = true
+  page.value = pageNum
   try {
     const result = await fetchJobData(title.value, year.value, workplace.value, page.value)
     data.value = result.data
@@ -21,11 +22,6 @@ async function searchJobs() {
   } finally {
     isLoading.value = false
   }
-}
-
-function changePage(newPage) {
-  page.value = newPage
-  searchJobs()
 }
 
 function clearFilters() {
@@ -106,7 +102,7 @@ function clearFilters() {
         <option value="其它">其它</option>
       </select>
     </div>
-    <button @click="searchJobs" :disabled="isLoading" style="margin: 10px">
+    <button @click="searchJobs(1)" :disabled="isLoading" style="margin: 10px">
       <span v-if="isLoading" class="loader"></span>
       <span v-else>Search</span>
     </button>
@@ -139,7 +135,7 @@ function clearFilters() {
       <span
         v-for="pageNum in totalPage"
         :key="pageNum"
-        @click="changePage(pageNum)"
+        @click="searchJobs(pageNum)"
         :style="{
           cursor: 'pointer',
           margin: '0 5px',
