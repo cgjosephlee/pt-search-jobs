@@ -1,22 +1,3 @@
-async function edgeFetch(url, body) {
-  const response = await fetch('/api/edgeFetch', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      url: url,
-      body: body
-    })
-  })
-
-  if (!response.ok) {
-    throw new Error(`Error: ${response.statusText}`)
-  }
-
-  return response
-}
-
 export async function fetchJobData(title, year, workplace, page) {
   const url = 'http://www.pt.org.tw/search_jobs_list.php'
   const payload = {
@@ -27,7 +8,13 @@ export async function fetchJobData(title, year, workplace, page) {
   }
   console.log(`fetchJobData: payload: ${JSON.stringify(payload)}`)
 
-  const response = await edgeFetch(url, payload)
+  const response = await fetch('/api/cors?' + url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: new URLSearchParams(payload)
+  })
 
   const text = await response.text()
   const parser = new DOMParser()
