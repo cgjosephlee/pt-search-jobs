@@ -14,7 +14,8 @@
     "@nuxt/eslint": "^0.6.1",
     "nuxt": "^3.14.159",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "vuetify-nuxt-module": "^0.18.3"
   },
   "devDependencies": {
     "eslint-config-prettier": "^9.1.0",
