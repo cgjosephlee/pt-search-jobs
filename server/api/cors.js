@@ -1,40 +1,16 @@
-// import { defineEventHandler, getRequestURL, readBody } from 'h3'
-
-// const allowedOrigins = []
-const allowedTargets = ['www.pt.org.tw']
-
 export default eventHandler(async (event) => {
-  const oriUrl = getRequestURL(event)
-  let targetUrl
+  const targetUrl = 'http://www.pt.org.tw/search_jobs_list.php'
   try {
-    targetUrl = new URL(decodeURIComponent(oriUrl.search.substring(1)))
-    // console.log(`targetUrl: ${targetUrl}`)
+    const body = await readBody(event)
+    console.log(`req.body: ${JSON.stringify(body)}`)
 
-    // check if host is allowed
-    const isAllowed = allowedTargets.some((pattern) => new RegExp(pattern).test(targetUrl.host))
-    if (!isAllowed) {
-      return new Response('Error: Host not allowed', { status: 403 })
-    }
-  } catch (error) {
-    return new Response(`Error: ${error.message}`, { status: 400 })
-  }
-
-  try {
-    // forward request to target URL
-    const fetchOptions = {
-      method: event.method,
+    const response = await fetch(targetUrl, {
+      method: 'POST',
       headers: {
-        'Content-Type': getHeader(event, 'Content-Type')
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: event.method === 'POST' ? await readRawBody(event, 'utf-8') : undefined
-    }
-    // console.log(`req.method: ${fetchOptions.method}`)
-    // for (const pair of event.headers.entries()) {
-    //   console.log(`req.header: ${pair[0]}: ${pair[1]}`)
-    // }
-    console.log(`req.body: ${decodeURIComponent(fetchOptions.body)}`)
-
-    const response = await fetch(targetUrl, fetchOptions)
+      body: new URLSearchParams(body)
+    })
     // console.log(response)
 
     // Return unmodified response

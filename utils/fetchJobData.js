@@ -1,5 +1,4 @@
 export async function fetchJobData(title, year, workplace, page) {
-  const url = 'http://www.pt.org.tw/search_jobs_list.php'
   const payload = {
     Title: title,
     Year: year,
@@ -8,15 +7,11 @@ export async function fetchJobData(title, year, workplace, page) {
   }
   console.log(`fetchJobData: payload: ${JSON.stringify(payload)}`)
 
-  const response = await fetch('/api/cors?' + url, {
+  const text = await $fetch('/api/cors', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    body: new URLSearchParams(payload)
+    body: payload
   })
 
-  const text = await response.text()
   const parser = new DOMParser()
   const doc = parser.parseFromString(text, 'text/html')
 
