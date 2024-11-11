@@ -1,12 +1,10 @@
-export const config = {
-  runtime: 'edge'
-}
+// import { defineEventHandler, getRequestURL, readBody } from 'h3'
 
 // const allowedOrigins = []
 const allowedTargets = ['www.pt.org.tw']
 
-export default async function handler(req) {
-  const oriUrl = new URL(req.url)
+export default eventHandler(async (event) => {
+  const oriUrl = getRequestURL(event)
   let targetUrl
   try {
     targetUrl = new URL(decodeURIComponent(oriUrl.search.substring(1)))
@@ -24,18 +22,20 @@ export default async function handler(req) {
   try {
     // forward request to target URL
     const fetchOptions = {
-      method: req.method,
+      method: event.method,
       headers: {
-        'Content-Type': req.headers.get('Content-Type')
+        'Content-Type': getHeader(event, 'Content-Type')
       },
-      body: req.method === 'POST' ? await req.text() : undefined
+      body: event.method === 'POST' ? await readRawBody(event, 'utf-8') : undefined
     }
     // console.log(`req.method: ${fetchOptions.method}`)
-    // for (const pair of req.headers.entries()) {
+    // for (const pair of event.headers.entries()) {
     //   console.log(`req.header: ${pair[0]}: ${pair[1]}`)
     // }
-    // console.log(`req.body: ${fetchOptions.body}`)
+    console.log(`req.body: ${decodeURIComponent(fetchOptions.body)}`)
+
     const response = await fetch(targetUrl, fetchOptions)
+    // console.log(response)
 
     // Return unmodified response
     const responseBody = await response.text()
@@ -52,4 +52,4 @@ export default async function handler(req) {
   } catch (error) {
     return new Response(`Error: ${error.message}`, { status: 500 })
   }
-}
+})
