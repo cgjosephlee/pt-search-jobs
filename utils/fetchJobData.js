@@ -8,8 +8,8 @@ export async function fetchJobData(title, year, workplace, page) {
   console.log('fetchJobData: payload:', payload)
 
   const text = await $fetch('/api/getPageContent', {
-    method: 'POST',
-    body: payload
+    query: payload,
+    retry: 0
   })
 
   const parser = new DOMParser()
