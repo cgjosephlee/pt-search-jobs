@@ -6,6 +6,6 @@
 
 <script setup>
 useHead({
-  title: 'PT search jobs',
+  title: 'PT search jobs'
 })
 </script>
