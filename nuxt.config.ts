@@ -4,7 +4,6 @@ export default defineNuxtConfig({
   routeRules: {
     '/': { prerender: true }
   },
-  nitro: { preset: 'vercel-edge' },
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   modules: ['@nuxt/eslint', 'vuetify-nuxt-module']
