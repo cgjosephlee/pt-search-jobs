@@ -15,7 +15,8 @@ async function searchJobs(pageNum) {
     data.value = result.data
     totalPage.value = result.totalPage
   } catch (error) {
-    console.error('Error fetching job data:', error)
+    console.error('Failed to fetch data:', error)
+    alert('Failed to fetch data!')
   } finally {
     isLoading.value = false
   }

@@ -5,7 +5,7 @@ export async function fetchJobData(title, year, workplace, page) {
     Workplace: workplace,
     p: page
   }
-  console.log(`fetchJobData: payload: ${JSON.stringify(payload)}`)
+  console.log('fetchJobData: payload:', payload)
 
   const text = await $fetch('/api/getPageContent', {
     method: 'POST',
